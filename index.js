@@ -4,7 +4,7 @@ const port=7777;
 const app=express();
 const expressLayouts =require('express-ejs-layouts');
 const db=require('./config/mongoose');
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:false})); 
 app.use(cookieParser());
 
 app.use(expressLayouts);

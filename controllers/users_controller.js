@@ -88,3 +88,10 @@ module.exports.createSession= function(req,res){
 
     
 }
+exports.signOut=function(req,res){
+    res.cookie('user_id','logout',{
+        expires:new Date(Date.now()+1000)
+    })
+    res.redirect('/');
+}
+//error kya thi ? ha maine cookie delete karne ka bana lia hai par  kuch error a raha hai logical not compile

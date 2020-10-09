@@ -27,5 +27,3 @@ app.listen(port,function(err){
     console.log(`server is running on port: ${port}`);
 });
 
-//abhi kuch implement nhi kra? nai sir net bass ek post request bhejke koi bhi  info render karne ke lia kaha
-//acha theek h!

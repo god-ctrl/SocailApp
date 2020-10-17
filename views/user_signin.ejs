@@ -1,7 +1,20 @@
-<h2>SignIn</h2>
 
-<form action="/users/create-session" method="POST">
-    <input type="email" name="email" placeholder="email" required>
-    <input type="password" name="password" placeholder="password" required>
-    <input type="submit" value="Sign In">
-</form>
+<div class="jumbotron centered">
+    <div class="container"> 
+       
+       <hr>
+      <form action="/users/create-session" method="POST">
+       
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+     
+         <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+       
+        <input class="btn btn-dark btn-lg" type="submit" value="Sign In">
+    </form>
+  
+    </div>
+  </div>
+
+  

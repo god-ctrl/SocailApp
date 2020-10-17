@@ -1,8 +1,25 @@
-<h2>SignUp</h2>
-<form action="/users/create" method="POST">
-    <input type="text" name="name" placeholder="name" required>
-    <input type="email" name="email" placeholder="email" required>
-    <input type="password" name="password" placeholder="password" required>
-    <input type="password" name="confirm_password" placeholder="confirm password" required>
-    <input type="submit" value="Sign Up">
-</form>
+<div class="jumbotron centered">
+    <div class="container"> 
+       <!-- <i class="fas fa-key fa-6x"></i> -->
+      <!-- <h1 class="display-3">SignUp</h1>
+      <p class="lead">Get busy living or get busy dying!</p>  -->
+       <hr>
+      <form action="/users/create" method="POST">
+        <label for="inputEmail" class="sr-only">Name</label>
+        <input type="name" name="name" class="form-control" placeholder="Name" required autofocus>
+
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+     
+         <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+           
+        <label for="inputPassword" class="sr-only">Confirm Password</label>
+        <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+        
+        <input class="btn btn-dark btn-lg" type="submit" value="Sign In">
+    </form>
+  
+    </div>
+  </div>
+

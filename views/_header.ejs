@@ -1,18 +1,37 @@
 <header>
-    Page Header
-    <ul>
-        <%if(locals.user){%>
-            <li>Name:<%=user.name%></li> 
-            <li>
-                <a href="/users/sign-out">Signout</a>
-            </li>       
-        <%}else{%>
-            <li>
-                <a href="/users/sign-in">Signin</a>
-            </li>
-            <li>
-                <a href="/users/sign-up">Register</a>
-            </li>
-        <%}%>
-    </ul>
+    <!-- Page Header -->
+    
+        
+    <%if(locals.user){%>
+        <li>Name:<%=user.name%></li> 
+                  
+            <div class="jumbotron centered">
+                <div class="container">
+                  <i class="fas fa-key fa-6x"></i>
+                  <h1 class="display-3">Job Portal</h1>
+                  <p class="lead">Get busy living or get busy dying!</p>
+                  <hr>
+                  <a class="btn btn-dark btn-lg" href="/users/sign-out" role="button">Sign Out</a>
+              
+                </div>
+              </div>
+              <%}else{%>
+            <div class="jumbotron centered">
+                <div class="container">
+                  <i class="fas fa-key fa-6x"></i>
+                  <h1 class="display-3">Job Portal</h1>
+                  <p class="lead">Get busy living or get busy dying!</p>
+                  <hr>
+                  <h1>
+                
+                    <a class="btn btn-light btn-lg" href="/users/sign-up" role="button">Register</a>
+                      <a class="btn btn-dark btn-lg" href="/users/sign-in" role="button">Login</a>
+                  
+                </h1>
+                
+                </div>
+              </div>
+              <%}%>
 </header>
+
+

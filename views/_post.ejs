@@ -1,0 +1,7 @@
+<li>
+    <%=post.user.name%>:-<%=post.content%>
+    <%if((locals.user)&&(post.user.id==locals.user.id)){%>
+        <a href="/posts/destroy/<%= post.id%>">X</a>
+    <%}%>
+</li>
+<%- include('_comments') -%>

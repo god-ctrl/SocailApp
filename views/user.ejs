@@ -4,11 +4,25 @@
       Codecial/Profile
   </h1>
   <%if(locals.profile_user){%>
-  <p><%=profile_user.name%></p>
-  <p><%=profile_user.email%></p>
+    <%if(user.id==profile_user.id){%>
+      <form action="/users/update/<%=profile_user.id%>" method="POST">
+        <input type="text" name="name" placeholder="Your new Name" value="<%=profile_user.name%>" required>
+        <input type="email" name="email" placeholder="Your email" value="<%=profile_user.email%>" required>
+        <input type="submit" value="Update">
+      </form>
+    <%}%>
+    <p><%=profile_user.name%></p>
+    <p><%=profile_user.email%></p>
   <%}else{%>
+    <form action="/users/update/<%=user.id%>" method="POST">
+      <input type="text" name="name" placeholder="Your new Name" value="<%user.name%>" required>
+      <input type="email" name="email" placeholder="Your email" value="<%=user.email%>" required>
+      <input type="submit" value="Update">
+    </form>
     <p><%=user.name%></p>
     <p><%=user.email%></p>
+
   <%}%>
+  
   
     

@@ -8,7 +8,7 @@ module.exports.profile=function(req,res){
         });
     })
    
-}//
+}
 module.exports.profile2=function(req,res){
     
         return res.render('user' ,{
@@ -79,9 +79,11 @@ module.exports.create=function(req,res){
 }
 //sign-in to create a session for the user
 module.exports.createSession= function(req,res){
+    req.flash('success','login successful');
     return res.redirect('/users/profile');
 }
 module.exports.destroySession= function(req,res){
     req.logout();
+    req.flash('success','you have logged out successfully');
     return res.redirect('/');
 }

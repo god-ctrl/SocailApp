@@ -3,29 +3,30 @@ const Comment=require('../models/comment');
 const Post=require('../models/post');
 
 
-module.exports.create = function(req, res){
-    Post.findById(req.body.post,function(err,post){
+module.exports.create = async function(req, res){
+    try{
+        let post= await Post.findById(req.body.post);
         if(post){
-            Comment.create({
+            let comment= await Comment.create({
                 content:req.body.content,
                 post : req.body.post,
                 user : req.user._id
-            },function(err,comment){
-                if(err)
-                {
-                    console.log('error in creating comment');
-                    return;
-                }
-                post.comments.push(comment);
-                post.save();
-
-                res.redirect('/');
             });
+           
+            post.comments.push(comment);
+            post.save();
+            req.flash('success','Commented successfully');
+            res.redirect('/');
+            
         }
-    })
+    }
+    catch(err){
+         req.flash('error',err);
+         return;
+    };
 }
 
-module.exports.destroy = function(req, res){
+module.exports.destroy =  function(req, res){
     Comment.findById(req.params.id,function(err,comment){
         
         if(comment)
@@ -34,7 +35,7 @@ module.exports.destroy = function(req, res){
             Post.findById(comment.post,function(err,post){
                 if(err)
                 {
-                    console.log('error in finding post of comment');
+                    req.flash('error',err);
                     return;
                 }
                 userId=post.user;
@@ -42,7 +43,7 @@ module.exports.destroy = function(req, res){
                 if(req.user.id==userId)
                 {
                     let postId=comment.post;
-                   
+                    req.flash('success','Deleted successfully');
                     comment.remove();
 
                     Post.findByIdAndUpdate(postId,{$pull: {comments:req.params.id}},function(err,post){
@@ -54,7 +55,7 @@ module.exports.destroy = function(req, res){
                     let postId=comment.post;
 
                     comment.remove();
-    
+                    req.flash('success','Deleted successfully');
                     Post.findByIdAndUpdate(postId,{$pull: {comments:req.params.id}},function(err,post){
                         return res.redirect('back');
                     });

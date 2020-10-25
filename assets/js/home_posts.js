@@ -1,4 +1,5 @@
 {
+    console.log('kikora');
     //method to submit the form data using ajax
     let createPost = function(){
         let newPostForm=$('#new-post-form');
@@ -19,5 +20,8 @@
         });
 
         createPost();
+        
     }
 }
+
+//method to create a post in DOM

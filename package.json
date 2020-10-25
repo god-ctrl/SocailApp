@@ -24,6 +24,7 @@
     "flash": "^1.1.0",
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.7",
+    "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "session": "^0.1.0"

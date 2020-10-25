@@ -16,23 +16,34 @@ module.exports.profile2=function(req,res){
     })
    
 }
-module.exports.update=function(req,res){
-    if(req.user.id==req.params.id)
-    {
-        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-                if(err)
-                {
-                    console.log('error in updating user');
-                    return;
-                }
-                return res.redirect('back');
-        });
+module.exports.update =  async (req,res) => {
+    if(req.user.id = req.params.id){
+        try{
+         let user = await User.findById(req.params.id);
+         User.uploadedAvatar(req,res,(err)=>{
+             if(err){console.log(`Multer error`,err);return;}
+             user.name = req.body.name,
+             user.email = req.body.email
+             if(req.file){
+                
+                 //saving the path of uploaded file into avatar field in user
+                 user.avatar = User.avatar_path + '/' +req.file.filename ;
+             }
+             user.save();
+             return res.redirect('back')
+         })
+        }catch (err){
+         req.flash('error',err);
+         return res.redirect('back')
+        }
+ 
+        
+ 
+    }else{
+         req.flash('error','Unauthorized!');
+         return res.status(401).send('Unauthorized')
     }
-    else
-    {
-        return res.status(401).send('Unauthorized');
-    }
-}
+ }
 
 
 //render sighup page
@@ -40,6 +51,7 @@ module.exports.signUp=function(req,res){
     if(req.isAuthenticated()){
         return res.redirect('/users/profile');
     }
+    //Nothing is uploaded.....
     return res.render('user_signup',{
         title:"Codecial| Sign Up"
     })

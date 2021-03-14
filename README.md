@@ -57,7 +57,7 @@ View in browser at http://localhost:3000
 
 ## Author Info
 
-- Twitter - [@jamesqquick](https://twitter.com/jamesqquick)
-- Website - [James Q Quick](https://jamesqquick.com)
+- LinkedIn - [Nilotpal](https://www.linkedin.com/in/nilotpal-das-842b071a1/)
+
 
 [Back To The Top](#read-me-template)

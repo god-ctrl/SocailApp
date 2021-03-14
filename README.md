@@ -39,10 +39,10 @@ Each user will have a profile where details will we given about the users,his po
 
 #### Installation
 
--Download the repository
--Install npm modules: npm install
--Start up the server: node index.js
--View in browser at http://localhost:3000
+- Download the repository
+- Install npm modules: npm install
+- Start up the server: node index.js
+- View in browser at http://localhost:3000
 
 
 

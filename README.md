@@ -1,5 +1,5 @@
 # SocailApp
-# Read Me Template
+
 
 
 
@@ -11,8 +11,7 @@ You're sections headers will be used to reference location of destination.
 
 - [Description](#description)
 - [How To Use](#how-to-use)
-- [References](#references)
-- [License](#license)
+
 - [Author Info](#author-info)
 
 ---
@@ -21,6 +20,15 @@ You're sections headers will be used to reference location of destination.
 
 This is an online social media site. that pretty much works as a copy of facebook allowing users to be friends and post on it.Get likes ,comment etc.
 Each user will have a profile where details will we given about the users,his posts and comments on it.
+## Features
+* Login/ Signup for Users.
+* Each user to have its own page, where it can post relevant posts about itself.
+* Users can update the info
+* Users and post int text
+* Users can comment on posts
+* post can be deleted if the user is authenticated
+* comments can be deleted both the users who post the post and the user who commented
+* 
 
 #### Technologies
 

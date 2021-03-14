@@ -28,7 +28,7 @@ Each user will have a profile where details will we given about the users,his po
 * Users can comment on posts
 * post can be deleted if the user is authenticated
 * comments can be deleted both the users who post the post and the user who commented
-* 
+
 
 #### Technologies
 

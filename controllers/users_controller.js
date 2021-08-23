@@ -31,7 +31,13 @@ module.exports.update =  async (req,res) => {
                 if(req.file){
                     if(user.avatar)
                     {
-                         fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                        try{
+                            fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                        }
+                        catch(err)
+                        {
+                            console.log('file was not found');
+                        }
                     }
                     //saving the path of uploaded file into avatar field in user
                     user.avatar = User.avatar_path + '\\' +req.file.filename ;

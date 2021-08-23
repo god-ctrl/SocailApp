@@ -22,15 +22,19 @@ module.exports.update =  async (req,res) => {
          let user = await User.findById(req.params.id);
          User.uploadedAvatar(req,res,(err)=>{
              if(err){console.log(`Multer error`,err);return;}
-             user.name = req.body.name,
-             user.email = req.body.email
-             if(req.file){
-                
-                 //saving the path of uploaded file into avatar field in user
-                 user.avatar = User.avatar_path + '/' +req.file.filename ;
-             }
-             user.save();
-             return res.redirect('back')
+             else
+             {
+                console.log(req.file);
+                user.name = req.body.name,
+                user.email = req.body.email
+                if(req.file){
+                    
+                    //saving the path of uploaded file into avatar field in user
+                    user.avatar = User.avatar_path + '\\' +req.file.filename ;
+                }
+                user.save();
+                return res.redirect('back')
+            }
          })
         }catch (err){
          req.flash('error',err);

@@ -40,8 +40,8 @@ let storage = multer.diskStorage({
 
 
   //static functions
-
-  userSchema.statics.uploadedAvatar = multer({storage: storage}).single('avatar');
+//   const upload = multer({ storage: storage, limits: { fieldSize: 10 * 1024 * 1024 } });
+  userSchema.statics.uploadedAvatar = multer({storage: storage,limits: { fieldSize: 10 * 1024 * 1024 }}).single('avatar');
   userSchema.statics.avatar_path = AVATAR_PATH;
 
 const User= mongoose.model('User',userSchema);

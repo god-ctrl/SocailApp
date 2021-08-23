@@ -1,12 +1,13 @@
 const User = require("../models/user");
-
+const fs = require('fs');
+const path = require('path');
 module.exports.profile=function(req,res){
     User.findById(req.params.id,function(err,user){
         return res.render('user' ,{
             title: "User",
             profile_user: user
         });
-    })
+    }) 
    
 }
 module.exports.profile2=function(req,res){
@@ -28,7 +29,10 @@ module.exports.update =  async (req,res) => {
                 user.name = req.body.name,
                 user.email = req.body.email
                 if(req.file){
-                    
+                    if(user.avatar)
+                    {
+                         fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                    }
                     //saving the path of uploaded file into avatar field in user
                     user.avatar = User.avatar_path + '\\' +req.file.filename ;
                 }

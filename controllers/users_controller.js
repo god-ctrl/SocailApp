@@ -1,6 +1,11 @@
 const User = require("../models/user");
+const Otp = require("../models/otp");
 const fs = require('fs');
 const path = require('path');
+
+const otpMailer = require('../mailers/otp_mailer');
+// const queue = require('../config/kue');
+// const commentEmailWorker = require('../workers/comment_email_worker');
 module.exports.profile=function(req,res){
     User.findById(req.params.id,function(err,user){
         return res.render('user' ,{
@@ -80,6 +85,49 @@ module.exports.signIn=function(req,res){
         title:"Codecial| Sign In"
     })
     
+}
+module.exports.getEmail=function(req,res){
+    if(req.isAuthenticated())
+    {
+        return res.redirect('/users/profile');
+    }
+    return res.render('forgotPassword',{
+        title:"forgot PassWord"
+    });
+}
+module.exports.getOtp=async function(req,res){
+    if(req.isAuthenticated())
+    {
+        return res.redirect('/users/profile');
+    }
+    if(req.body.email)
+    {
+        let mail=await User.findOne({email:req.body.email});
+        if(mail)
+        {
+            //After creating Otp 
+            let otpCode = Math.floor((Math.random() * 10000)+1);
+            let ootp = await Otp.create({
+                email:req.body.email,
+                code:otpCode,
+                expireIn: new Date().getTime() + 300*1000
+            });
+            // let otpResponse = await otpData.save();
+            otpMailer.newOtp(ootp);
+            res.redirect('/');
+        }
+        else
+        {
+            console.log(mail);
+            req.flash('error','Email is invalid');
+            return res.redirect('back');
+        }
+    }
+    else
+    {
+        console.log('the email was not given from the form');
+        return res.redirect('back');
+    }
 }
 //get the sign up data
 module.exports.create=function(req,res){

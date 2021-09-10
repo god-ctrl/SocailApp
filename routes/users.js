@@ -15,6 +15,8 @@ router.post('/create-session',passport.authenticate(
 ),usersController.createSession);
 router.get('/getEmail',usersController.getEmail);
 router.post('/getOtp',usersController.getOtp);///users/getOtp
+router.post('/OtpPassword',usersController.updatePassword);//OtpPassWord
+router.get('/resetPassword',usersController.resetPassword);///users/resetPassword
 router.get('/auth/google',passport.authenticate('google',{scope: ['profile','email']}));
 router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect: '/users/sign-in'},),usersController.createSession);
 module.exports=router;

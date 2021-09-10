@@ -63,7 +63,45 @@ module.exports.update =  async (req,res) => {
          return res.status(401).send('Unauthorized')
     }
  }
-
+module.exports.updatePassword=async function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
+    let userToChange=await User.findOne({email:req.body.email});
+    if(userToChange)
+    {
+        let ottp=await Otp.findOne({email:req.body.email,code:req.body.otp});
+        // console.log(ottp.email,);
+        if(ottp) 
+        {
+            let time=new Date().getTime();
+            console.log(time);
+            console.log(ottp.expireIn);
+            if(ottp.expireIn<time)
+            {
+                req.flash('error','invalid otp');
+                return res.redirect('back');
+            }
+            else
+            {
+                userToChange.password = req.body.password;
+                userToChange.save();
+                req.flash('success','password changed');
+                return res.redirect('/users/sign-in');
+            }
+        }
+        else
+        {
+            req.flash('error','invalid otp');
+            return res.redirect('back');
+        }
+    }
+    else
+    {
+        req.flash('error','User not found');
+        return res.redirect('back');
+    }
+}
 
 //render sighup page
 module.exports.signUp=function(req,res){
@@ -72,7 +110,7 @@ module.exports.signUp=function(req,res){
     }
     //Nothing is uploaded.....
     return res.render('user_signup',{
-        title:"Codecial| Sign Up"
+        title:"Socail App| Sign Up"
     })
     
 }
@@ -82,7 +120,7 @@ module.exports.signIn=function(req,res){
         return res.redirect('/users/profile');
     }
     return res.render('user_signin',{
-        title:"Codecial| Sign In"
+        title:"Social App | Sign In"
     })
     
 }
@@ -114,7 +152,7 @@ module.exports.getOtp=async function(req,res){
             });
             // let otpResponse = await otpData.save();
             otpMailer.newOtp(ootp);
-            res.redirect('/');
+            res.redirect('/users/resetPassword');
         }
         else
         {
@@ -128,6 +166,15 @@ module.exports.getOtp=async function(req,res){
         console.log('the email was not given from the form');
         return res.redirect('back');
     }
+}
+module.exports.resetPassword=function(req,res){
+    if(req.isAuthenticated())
+    {
+        return res.redirect('/users/profile');
+    }
+    return res.render('resetPassword',{
+        title:"forgot PassWord"
+    });
 }
 //get the sign up data
 module.exports.create=function(req,res){

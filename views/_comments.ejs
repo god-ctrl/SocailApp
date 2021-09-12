@@ -17,6 +17,14 @@
                     <%if((locals.user)&&((comment.user.id==locals.user.id|| locals.user.id==post.user.id))){%>
                         <a href="/comments/destroy/<%= comment.id%>">X</a>
                     <%}%>
+                    <br>
+                    <%if(locals.user){%>
+                        <a href="/likes/toggle/?id=<%=comment._id%>&type=Comment">
+                            <%=comment.likes.length%> Likes
+                        </a>
+                    <%}else{%>
+                            <%=comment.likes.length%> Likes
+                    <%}%>
                 </p>
 
             <%}%>

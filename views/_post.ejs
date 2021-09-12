@@ -4,4 +4,11 @@
         <a href="/posts/destroy/<%= post.id%>">X</a>
     <%}%>
 </li>
+<%if(locals.user){%>
+<a href="/likes/toggle/?id=<%=post._id%>&type=Post">
+    <%=post.likes.length%> Likes
+</a>
+<%}else{%>
+    <%=post.likes.length%> Likes
+<%}%>
 <%- include('_comments') -%>

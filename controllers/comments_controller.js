@@ -1,6 +1,7 @@
 const Comment = require('../models/comment');
 
 const Post = require('../models/post');
+const Like=require('../models/like');
 const commentMailer = require('../mailers/comments_mailer');
 const queue = require('../config/kue');
 const commentEmailWorker = require('../workers/comment_email_worker');
@@ -42,49 +43,52 @@ module.exports.create = async function(req, res){
     };
 }
 
-module.exports.destroy =  function(req, res){
-    Comment.findById(req.params.id,function(err,comment){
+module.exports.destroy = async function(req, res){
+    comment=await Comment.findById(req.params.id);
         
-        if(comment)
-        {
+    if(comment)
+    {
             let userId = -1;
-            Post.findById(comment.post,function(err,post){
-                if(err)
-                {
-                    req.flash('error',err);
-                    return;
-                }
-                userId=post.user;
-                
-                if(req.user.id==userId)
-                {
-                    let postId=comment.post;
-                    req.flash('success','Deleted successfully');
-                    comment.remove();
-
-                    Post.findByIdAndUpdate(postId,{$pull: {comments:req.params.id}},function(err,post){
-                    return res.redirect('back');
-                     });
-                }
-                else if(comment.user==req.user.id)
-                {
-                    let postId=comment.post;
-
-                    comment.remove();
-                    req.flash('success','Deleted successfully');
-                    Post.findByIdAndUpdate(postId,{$pull: {comments:req.params.id}},function(err,post){
-                        return res.redirect('back');
-                    });
-                }
-                else
-                {
-                    return res.redirect('back');
-                }
-            });
+            post = await Post.findById(comment.post);
             
-        }
-        else{
-            return res.redirect('back');
-        }
-    })
+            userId=post.user;
+            
+            if(req.user.id==userId)
+            {
+                let postId=comment.post;
+                await Like.deleteMany({
+                    likeable:comment,
+                    onModel:'Comment'
+                });
+                req.flash('success','Deleted successfully');
+                comment.remove();
+
+                await Post.findByIdAndUpdate(postId,{$pull: {comments:req.params.id}})
+                return res.redirect('back');
+                
+            }
+            else if(comment.user==req.user.id)
+            {
+                let postId=comment.post;
+                await Like.deleteMany({
+                    likeable:comment,
+                    onModel:'Comment'
+                });
+                comment.remove();
+                req.flash('success','Deleted successfully');
+                await Post.findByIdAndUpdate(postId,{$pull: {comments:req.params.id}})
+                return res.redirect('back');
+                
+            }
+            else
+            {
+                return res.redirect('back');
+            }
+        
+        
+    }
+    else{
+        return res.redirect('back');
+    }
+    
 }

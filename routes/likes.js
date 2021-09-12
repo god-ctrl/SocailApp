@@ -3,6 +3,6 @@ const router=express.Router();
 const passport=require('passport');
 const likesController = require('../controllers/likes_controller');
 
-router.post('/toggle',passport.checkAuthentication,likesController.toogleLike);
+router.get('/toggle',passport.checkAuthentication,likesController.toogleLike);
 
 module.exports=router;

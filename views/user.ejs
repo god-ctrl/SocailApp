@@ -17,9 +17,28 @@
         <input type="file" name="avatar" placeholder="Profile Picture">
         <input type="submit" value="Update">
       </form>
+      <br>
+      <strong>My friends</strong>
+      <%for(friend of me.friends){%>
+        <p> 
+             
+          <a href="/users/profile/<%=friend.id%>"><%=friend.name%></a>
+        </p>
+      <%}%>
+    <%}else{%>
+      <%if(check==4){%>
+      <a href="/users/friendRequest/?id=<%=profile_user._id%>">Send Request</a> 
+      <%}else if(check==1){%>
+      <a href="/users/unfriend/?id=<%=profile_user._id%>">Unfriend</a> 
+      <%}else if(check==2){%>
+        <a href="/users/cancelFriendRequest/?id=<%=profile_user._id%>">Cancel Request</a> 
+      <%}else if(check==3){%>
+        <a href="/users/acceptFriendRequest/?id=<%=profile_user._id%>">Accept Request</a> 
+      <%}%>
     <%}%>
     
   <%}else{%>
+    <!-- <%=me.name%> -->
     <img src="<%=user.avatar%>"alt="<%=user.name%>" width="100" height="80">
     <p><%=user.name%></p>
     <p><%=user.email%></p>
@@ -31,6 +50,13 @@
       <input type="submit" value="Update">
     </form>
     
+    <strong>My friends</strong>
+      <%for(friend of me.friends){%>
+        <p> 
+             
+          <a href="/users/profile/<%=friend.id%>"><%=friend.name%></a>
+        </p>
+      <%}%>
   <%}%>
   
   

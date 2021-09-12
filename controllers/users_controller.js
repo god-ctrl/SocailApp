@@ -1,24 +1,68 @@
 const User = require("../models/user");
 const Otp = require("../models/otp");
+const Friendship = require("../models/friendship");
 const fs = require('fs');
 const path = require('path');
 
 const otpMailer = require('../mailers/otp_mailer');
 // const queue = require('../config/kue');
 // const commentEmailWorker = require('../workers/comment_email_worker');
-module.exports.profile=function(req,res){
-    User.findById(req.params.id,function(err,user){
+module.exports.profile=async function(req,res){
+    user = await User.findById(req.params.id);
+    let check=0;
+    for(fri of req.user.friends)
+    {
+        if(fri==user._id)
+        {
+            check=1;
+        }
+    }
+    if(check==1)
+    {
         return res.render('user' ,{
             title: "User",
-            profile_user: user
+            profile_user: user,
+            check: 1
         });
-    }) 
+    }
+    let request=await Friendship.findOne({from_user:req.body.user,to_user:user});
+    if(request)
+    {
+        console.log('kaise aya idhar');
+        console.log(request);
+        return res.render('user' ,{
+            title: "User",
+            profile_user: user,
+            check:2
+        });
+    }
+    request=await Friendship.findOne({to_user:req.body.user,from_user:user});
+    if(request)
+    {
+        // console.lor
+        return res.render('user' ,{
+            title: "User",
+            profile_user: user,
+            check:3
+        });
+    }
+    return res.render('user' ,{
+        title: "User",
+        profile_user: user,
+        check:4
+    });
+     
    
 }
-module.exports.profile2=function(req,res){
-    
+module.exports.profile2=async function(req,res){
+        let user=req.user;
+        await user.populate({
+            path:'friends'
+        });
+        console.log(user);
         return res.render('user' ,{
-            title: "User"
+            title: "User",
+            me:user
     })
    
 }

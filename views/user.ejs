@@ -19,21 +19,21 @@
       </form>
       <br>
       <strong>My friends</strong>
-      <%for(friend of me.friends){%>
+      <!-- <%for(friend of me.friends){%>
         <p> 
              
           <a href="/users/profile/<%=friend.id%>"><%=friend.name%></a>
         </p>
-      <%}%>
+      <%}%> -->
     <%}else{%>
       <%if(check==4){%>
-      <a href="/users/friendRequest/?id=<%=profile_user._id%>">Send Request</a> 
+      <a href="/friends/friendRequest/?id=<%=profile_user._id%>">Send Request</a> 
       <%}else if(check==1){%>
-      <a href="/users/unfriend/?id=<%=profile_user._id%>">Unfriend</a> 
+      <a href="/friends/unfriend/?id=<%=profile_user._id%>">Unfriend</a> 
       <%}else if(check==2){%>
-        <a href="/users/cancelFriendRequest/?id=<%=profile_user._id%>">Cancel Request</a> 
+        <a href="/friends/cancelFriendRequest/?id=<%=profile_user._id%>">Cancel Request</a> 
       <%}else if(check==3){%>
-        <a href="/users/acceptFriendRequest/?id=<%=profile_user._id%>">Accept Request</a> 
+        <a href="/friends/acceptFriendRequest/?id=<%=profile_user._id%>">Accept Request</a> 
       <%}%>
     <%}%>
     
@@ -49,7 +49,13 @@
       <input type="file" name="avatar" placeholder="Profile Picture">
       <input type="submit" value="Update">
     </form>
-    
+    <strong>My friend Requests</strong>
+      <%for(req of requests){%>
+        <p> 
+             
+          <%=req.from_user.name%><a href="/friends/acceptRequest/<%=req.from_user._id%>"> accept request</a>
+        </p>
+      <%}%>
     <strong>My friends</strong>
       <%for(friend of me.friends){%>
         <p> 

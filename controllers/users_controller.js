@@ -8,15 +8,24 @@ const otpMailer = require('../mailers/otp_mailer');
 // const queue = require('../config/kue');
 // const commentEmailWorker = require('../workers/comment_email_worker');
 module.exports.profile=async function(req,res){
+    console.log()
+    if(req.params.id==req.user._id)
+    {
+        console.log("redirected");
+        return res.redirect('/users/profile');
+    }
     user = await User.findById(req.params.id);
     let check=0;
+    console.log(user);
+    console.log(req.user.friends[0]);
     for(fri of req.user.friends)
     {
-        if(fri==user._id)
+        if(fri==user.id)
         {
             check=1;
         }
     }
+    console.log(check)
     if(check==1)
     {
         return res.render('user' ,{
@@ -55,15 +64,23 @@ module.exports.profile=async function(req,res){
    
 }
 module.exports.profile2=async function(req,res){
-        let user=req.user;
-        await user.populate({
-            path:'friends'
-        });
-        console.log(user);
+        let requests = await Friendship.find({
+            to_user:req.user._id
+        })
+        .populate('from_user');
+
+        let user=await User.findOne(req.user)
+        .populate({
+            path:'friends',
+            model:'User'
+        })
+        console.log(user.friends[0].name);
+        console.log(user.friends[0]);
         return res.render('user' ,{
             title: "User",
-            me:user
-    })
+            me:user,
+            requests:requests
+    });
    
 }
 module.exports.update =  async (req,res) => {

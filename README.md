@@ -58,7 +58,7 @@ Each user will have a profile where details will we given about the users,his po
 - Download the repository
 - Install npm modules: npm install
 - Start up the server: node index.js
-- View in browser at http://localhost:8000
+- View in browser at http://localhost:3000
 
 
 

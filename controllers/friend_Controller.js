@@ -27,7 +27,7 @@ module.exports.sendRequest = async function (req,res) {
             to_user: req.query.id
 
         });
-        console.log(friendship);
+        // console.log(friendship);
         if(friendship)
         {
             req.flash('error','you have already send him a req');
@@ -62,8 +62,8 @@ module.exports.sendRequest = async function (req,res) {
 module.exports.acceptRequest= async function(req,res){
     let newFriendUser = await User.findById(req.params.id);
     // console.log(newFriendUser);
-    console.log(req.params.id);
-    console.log(newFriendUser);
+    // console.log(req.params.id);
+    // console.log(newFriendUser);
     let friendShip=await Friendship.findOne({
         from_user: newFriendUser,
         to_user: req.user
@@ -79,3 +79,42 @@ module.exports.acceptRequest= async function(req,res){
     
     return res.redirect('back');
 }
+//unfriend
+module.exports.unfriend= async function(req,res){
+    let newFriendUser = await User.findById(req.params.id);
+    // console.log(newFriendUser);
+    // console.log(req.query.id);
+    // console.log(newFriendUser);
+    await User.findByIdAndUpdate(req.user._id,{$pull: {friends:req.query.id}});
+    await User.findByIdAndUpdate(req.query.id,{$pull: {friends:req.user._id}});
+    
+   
+    
+    return res.redirect('back');
+}
+//cancelRequest
+module.exports.cancelRequest= async function(req,res){
+   let friendship=await Friendship.findOne({
+       to_user:req.user,
+       from_user:req.query.id
+   });
+   if(friendship)
+   {
+       await Friendship.deleteOne(friendship);
+       return res.redirect('back');
+   }
+   let friendship2=await Friendship.findOne({
+    from_user:req.user,
+    to_user:req.query.id
+   });
+   if(friendship2)
+   {
+       await Friendship.deleteOne(friendship2);
+       return res.redirect('back');
+   }
+   return res.redirect('back');
+
+}
+   
+    
+    

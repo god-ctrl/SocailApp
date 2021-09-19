@@ -8,7 +8,7 @@ const otpMailer = require('../mailers/otp_mailer');
 // const queue = require('../config/kue');
 // const commentEmailWorker = require('../workers/comment_email_worker');
 module.exports.profile=async function(req,res){
-    console.log()
+    // console.log()
     if(req.params.id==req.user._id)
     {
         console.log("redirected");
@@ -16,8 +16,8 @@ module.exports.profile=async function(req,res){
     }
     user = await User.findById(req.params.id);
     let check=0;
-    console.log(user);
-    console.log(req.user.friends[0]);
+    // console.log(user);
+    // console.log(req.user.friends[0]);
     for(fri of req.user.friends)
     {
         if(fri==user.id)
@@ -25,7 +25,7 @@ module.exports.profile=async function(req,res){
             check=1;
         }
     }
-    console.log(check)
+    // console.log(check)
     if(check==1)
     {
         return res.render('user' ,{
@@ -34,18 +34,18 @@ module.exports.profile=async function(req,res){
             check: 1
         });
     }
-    let request=await Friendship.findOne({from_user:req.body.user,to_user:user});
+    let request=await Friendship.findOne({from_user:req.user,to_user:user});
     if(request)
     {
-        console.log('kaise aya idhar');
-        console.log(request);
+        // console.log('kaise aya idhar');
+        // console.log(request);
         return res.render('user' ,{
             title: "User",
             profile_user: user,
             check:2
         });
     }
-    request=await Friendship.findOne({to_user:req.body.user,from_user:user});
+    request=await Friendship.findOne({to_user:req.user,from_user:user});
     if(request)
     {
         // console.lor
@@ -74,8 +74,8 @@ module.exports.profile2=async function(req,res){
             path:'friends',
             model:'User'
         })
-        console.log(user.friends[0].name);
-        console.log(user.friends[0]);
+        // console.log(user.friends[0].name);
+        // console.log(user.friends[0]);
         return res.render('user' ,{
             title: "User",
             me:user,

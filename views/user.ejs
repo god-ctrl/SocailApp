@@ -26,6 +26,7 @@
         </p>
       <%}%> -->
     <%}else{%>
+     
       <%if(check==4){%>
       <a href="/friends/friendRequest/?id=<%=profile_user._id%>">Send Request</a> 
       <%}else if(check==1){%>
@@ -33,7 +34,8 @@
       <%}else if(check==2){%>
         <a href="/friends/cancelFriendRequest/?id=<%=profile_user._id%>">Cancel Request</a> 
       <%}else if(check==3){%>
-        <a href="/friends/acceptFriendRequest/?id=<%=profile_user._id%>">Accept Request</a> 
+        <a href="/friends/acceptRequest/<%=profile_user._id%>">Accept Request </a> 
+        <a href="/friends/cancelFriendRequest/?id=<%=profile_user._id%>">Cancel Request</a>
       <%}%>
     <%}%>
     
@@ -53,9 +55,10 @@
       <%for(req of requests){%>
         <p> 
              
-          <%=req.from_user.name%><a href="/friends/acceptRequest/<%=req.from_user._id%>"> accept request</a>
+          <%=req.from_user.name%><a href="/friends/acceptRequest/<%=req.from_user._id%>"> accept request </a> <a href="/friends/cancelFriendRequest/?id=<%=req.from_user._id%>">Cancel Request</a>
         </p>
       <%}%>
+      <p>
     <strong>My friends</strong>
       <%for(friend of me.friends){%>
         <p> 
@@ -63,6 +66,7 @@
           <a href="/users/profile/<%=friend.id%>"><%=friend.name%></a>
         </p>
       <%}%>
+    </p>
   <%}%>
   
   

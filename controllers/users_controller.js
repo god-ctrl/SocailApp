@@ -69,13 +69,15 @@ module.exports.profile2=async function(req,res){
         })
         .populate('from_user');
 
-        let user=await User.findOne(req.user)
+        let user=await User.findById(req.user._id)
         .populate({
             path:'friends',
             model:'User'
         })
         // console.log(user.friends[0].name);
         // console.log(user.friends[0]);
+        console.log(req.user);
+        console.log(user);
         return res.render('user' ,{
             title: "User",
             me:user,
